@@ -2,7 +2,7 @@ server:
   port: 8081
 spring:
   application:
-    name: product-service
+    name:  product-service-monolith
   datasource:
     url: jdbc:postgresql://localhost:5432/productdb
     driver-class-name: org.postgresql.Driver
