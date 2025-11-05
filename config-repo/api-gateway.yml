@@ -2,7 +2,7 @@ server:
   port: 8085
 spring:
   application:
-    name: api-gateway
+    name: api-gateway-monolith
   cloud:
     gateway:
       discovery:
@@ -11,15 +11,16 @@ spring:
           lower-case-service-id: true
       routes:
         - id: product_route
-          uri: lb://product-service
+          uri: lb://PRODUCT-SERVICE-MONOLITH
           predicates:
             - Path=/api/products/**
         - id: order_route
-          uri: lb://order-service
+          uri: lb://ORDER-SERVICE-MONOLITH
           predicates:
             - Path=/api/orders/**
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+
 
