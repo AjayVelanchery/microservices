@@ -4,19 +4,21 @@ server:
 spring:
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
-      routes:
-        - id: product_route
-          uri: lb://PRODUCT-SERVICE-MONOLITH
-          predicates:
-            - Path=/api/products/**
-        - id: order_route
-          uri: lb://ORDER-SERVICE-MONOLITH
-          predicates:
-            - Path=/api/orders/**
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
+          routes:
+            - id: product_route
+              uri: lb://PRODUCT-SERVICE-MONOLITH
+              predicates:
+                - Path=/api/products/**
+            - id: order_route
+              uri: lb://ORDER-SERVICE-MONOLITH
+              predicates:
+                - Path=/api/orders/**
 
 eureka:
   client:
