@@ -36,7 +36,7 @@ resilience4j:
         register-health-indicator: true
         ignore-exceptions:
           - com.example.order_service_monolith.exception.ProductNotFoundException
-          - java.lang.RuntimeException  
+          - com.example.order_service_monolith.exception.InsufficientStockException
 
 feign:
   client:
