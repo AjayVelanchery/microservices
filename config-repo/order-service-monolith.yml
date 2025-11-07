@@ -34,7 +34,9 @@ resilience4j:
         automatic-transition-from-open-to-half-open-enabled: true
         permitted-number-of-calls-in-half-open-state: 2
         register-health-indicator: true
-
+        ignore-exceptions:
+          - com.example.order_service_monolith.exception.ProductNotFoundException
+          - java.lang.RuntimeException  
 
 feign:
   client:
