@@ -4,21 +4,32 @@ server:
 spring:
   cloud:
     gateway:
-      server:
-        webflux:
-          discovery:
-            locator:
-              enabled: true
-              lower-case-service-id: true
-          routes:
-            - id: product_route
-              uri: lb://PRODUCT-SERVICE-MONOLITH
-              predicates:
-                - Path=/api/products/**
-            - id: order_route
-              uri: lb://ORDER-SERVICE-MONOLITH
-              predicates:
-                - Path=/api/orders/**
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: product_route
+          uri: lb://PRODUCT-SERVICE-MONOLITH
+          predicates:
+            - Path=/api/products/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@userKeyResolver}"
+
+        - id: order_route
+          uri: lb://ORDER-SERVICE-MONOLITH
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 3
+                redis-rate-limiter.burstCapacity: 5
+                key-resolver: "#{@userKeyResolver}"
 
 eureka:
   client:
@@ -26,6 +37,3 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
-
-
-
